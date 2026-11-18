@@ -1,0 +1,35 @@
+name: comprobara script y preparar
+
+on:
+  push:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  construir:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Descargar código
+        uses: actions/checkout@v5
+
+      - name: Configurar php
+        uses: shivamathur/setup-php@v2
+        with:
+          php-version:'8.2'
+          coverage:none
+
+      - name:ejecutar script
+        shell:pwsh
+        run: ./desplegar.ps1 -RutaPHP 'php'
+      -name:Guardar version preparada
+       uses:actions/upload-artifact@v2
+       with:
+       name:version-preparada
+       path:pruebas/indez.php
+       if-no-files-found:error
+       
