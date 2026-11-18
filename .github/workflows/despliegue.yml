@@ -1,35 +1,35 @@
-name: comprobara script y preparar
+name: Comprobar script y preparar version
 
 on:
   push:
-  pull_request:
     branches:
       - main
 
+  workflow_dispatch:
 permissions:
   contents: read
 
 jobs:
-  construir:
-    runs-on: ubuntu-24.04
+  preparar:
+    runs-on: windows-latest
 
     steps:
       - name: Descargar código
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
-      - name: Configurar php
-        uses: shivamathur/setup-php@v2
+      - name: Configurar PHP
+        uses: shivammathur/setup-php@v2
         with:
-          php-version:'8.2'
-          coverage:none
+          php-version: '8.2'
+          coverage: none
 
-      - name:ejecutar script
-        shell:pwsh
+      - name: Ejecutar script
+        shell: pwsh
         run: ./desplegar.ps1 -RutaPHP 'php'
-      -name:Guardar version preparada
-       uses:actions/upload-artifact@v2
-       with:
-       name:version-preparada
-       path:pruebas/indez.php
-       if-no-files-found:error
-       
+
+      - name: Guardar version preparada
+        uses: actions/upload-artifact@v4
+        with:
+          name: version-preparada
+          path: Pruebas/index.php
+          if-no-files-found: error
